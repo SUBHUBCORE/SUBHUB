@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.subHub.modules.subscription.dao.SubscriptionDao">
+
+    <resultMap type="io.subHub.modules.subscription.entity.SubscriptionEntity" id="subscriptionsMap">
+        <result property="id" column="id"/>
+        <result property="address" column="address"/>
+        <result property="belongsToId" column="belongs_to_id"/>
+        <result property="networkName" column="network_name"/>
+        <result property="createAt" column="create_at"/>
+        <result property="subscribeSource" column="subscribe_source"/>
+        <result property="subscribeStatus" column="subscribe_status"/>
+    </resultMap>
+
+    <select id="getThisDaySubCountByProjectId" parameterType="java.lang.Long" resultType="java.lang.Long">
+        SELECT COUNT(*) FROM subscriptions WHERE belongs_to_id = #{projectId} AND subscribe_status = 0 AND DATE(create_at) = CURDATE();
+    </select>
+
+    <select id="getSubscriberCountByDay" resultType="java.util.Map">
+        SELECT  DATE(create_at) createAt,COUNT(*) AS total FROM subscriptions USE index (belongs_to_id_status_create) WHERE belongs_to_id = #{projectId} AND subscribe_status = 0  AND create_at >= DATE_SUB(CURDATE(), INTERVAL #{day} DAY) GROUP BY DATE(create_at);
+    </select>
+
+    <select id="getSubscriberNetworkCountByProjectId" parameterType="java.lang.Long" resultType="java.util.Map">
+        SELECT network_name AS networkName, COUNT(*) AS total
+        FROM subscriptions
+        WHERE belongs_to_id = #{projectId}
+        AND subscribe_status = 0
+        GROUP BY network_name;
+    </select>
+
+<!--    <select id="getSubscriberByProjectIdPage" resultType="io.subHub.modules.subscription.dto.SubscriptionDTO">-->
+<!--        SELECT address-->
+<!--        FROM subscriptions-->
+<!--        WHERE belongs_to_id = #{projectId} AND subscribe_status = 0-->
+<!--        LIMIT #{page},#{pageSize};-->
+<!--    </select>-->
+
+    <select id="getSubscriberByProjectIdPage" resultType="io.subHub.modules.subscription.dto.SubscriptionDTO">
+        SELECT
+            t1.address,t1.pid
+        FROM
+            subscriptions AS t1
+                INNER JOIN ( SELECT id FROM subscriptions WHERE belongs_to_id =  #{projectId} AND subscribe_status = 0 ORDER BY id DESC LIMIT #{page},#{pageSize} ) t2 USING ( id );
+    </select>
+
+</mapper>

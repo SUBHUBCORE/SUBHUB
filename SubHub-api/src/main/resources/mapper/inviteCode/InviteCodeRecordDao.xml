@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.subHub.modules.inviteCode.dao.InviteCodeRecordDao">
+
+    <resultMap type="io.subHub.modules.inviteCode.entity.InviteCodeRecordEntity" id="inviteCodeRecordMap">
+        <result property="id" column="id"/>
+        <result property="inviteCode" column="invite_code"/>
+        <result property="useStatus" column="use_status"/>
+        <result property="useUserId" column="use_user_id"/>
+        <result property="claimStatus" column="claim_status"/>
+        <result property="recipientName" column="recipient_name"/>
+        <result property="activationDt" column="activation_dt"/>
+        <result property="createDt" column="create_dt"/>
+        <result property="updateDt" column="update_dt"/>
+    </resultMap>
+
+
+</mapper>

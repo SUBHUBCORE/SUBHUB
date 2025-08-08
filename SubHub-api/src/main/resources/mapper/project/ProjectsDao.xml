@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.subHub.modules.project.dao.ProjectDao">
+
+    <resultMap type="io.subHub.modules.project.entity.ProjectEntity" id="projectsMap">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="certifications" column="certifications"/>
+        <result property="certFailReason" column="cert_fail_reason"/>
+        <result property="displayRank" column="display_rank"/>
+        <result property="type" column="type"/>
+        <result property="logo" column="logo"/>
+        <result property="description" column="description"/>
+        <result property="hashedPassword" column="hashed_password"/>
+        <result property="walletAddress" column="wallet_address"/>
+        <result property="nft" column="nft"/>
+        <result property="website" column="website"/>
+        <result property="twitter" column="twitter"/>
+        <result property="discord" column="discord"/>
+        <result property="telegram" column="telegram"/>
+        <result property="customProperties" column="custom_properties"/>
+        <result property="belongsToId" column="belongs_to_id"/>
+        <result property="inviteCode" column="invite_code"/>
+        <result property="createAt" column="create_at"/>
+        <result property="updateDt" column="update_dt"/>
+    </resultMap>
+
+    <select id="getNftByUserId" parameterType="java.lang.Long" resultType="java.lang.String">
+        select nft from projects WHERE belongs_to_id=#{userId}
+    </select>
+
+
+</mapper>
