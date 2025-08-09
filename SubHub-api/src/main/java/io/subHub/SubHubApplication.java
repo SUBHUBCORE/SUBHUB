@@ -19,7 +19,6 @@ public class SubHubApplication extends SpringBootServletInitializer{
 
 	public static void main(String[] args) {
 		SpringApplication.run(SubHubApplication.class, args);
-		System.out.println("--------------Successfully started--------------");
 	}
 
 
